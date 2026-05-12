@@ -28,8 +28,8 @@ official model list.
 ### CLI usage
 
 ```bash
-veritas verify --claim "..." --provider qwen --json
-veritas verify --claim "..." --provider qwen --model qwen-plus --json
+cerno verify --claim "..." --provider qwen --json
+cerno verify --claim "..." --provider qwen --model qwen-plus --json
 ```
 
 ## DeepSeek
@@ -79,7 +79,7 @@ environment variables:
 Then run:
 
 ```bash
-veritas verify --claim "..." --provider {name} --json
+cerno verify --claim "..." --provider {name} --json
 ```
 
 ## Tavily (web search)

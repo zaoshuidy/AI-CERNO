@@ -1,4 +1,4 @@
-"""Unit tests for veritas.understanding — claim profile, decompose, retrieval plan.
+"""Unit tests for cerno.understanding — claim profile, decompose, retrieval plan.
 
 No real LLMs, no real network. All adapters are local FakeAdapters.
 """
@@ -10,13 +10,13 @@ from typing import Any
 
 import pytest
 
-from veritas.consensus import LLMResponse, MultiModelConsensus
-from veritas.types import (
+from cerno.consensus import LLMResponse, MultiModelConsensus
+from cerno.types import (
     AtomicClaim,
     ClaimProfile,
     VerificationRequest,
 )
-from veritas.understanding import (
+from cerno.understanding import (
     DECOMPOSE_SCHEMA,
     MAX_ATOMIC_CLAIMS,
     P0_SOURCE_TARGETS,
@@ -513,7 +513,7 @@ def test_retrieval_plan_low_risk_does_not_require_official_source() -> None:
 # ---------------------------------------------------------------------------
 
 def test_build_claim_profile_accumulates_cost() -> None:
-    from veritas.observability import CostBreakdown
+    from cerno.observability import CostBreakdown
 
     request = VerificationRequest(claim="test")
     consensus = _consensus(
@@ -542,7 +542,7 @@ def test_build_claim_profile_accumulates_cost() -> None:
 
 
 def test_decompose_claim_accumulates_cost() -> None:
-    from veritas.observability import CostBreakdown
+    from cerno.observability import CostBreakdown
 
     request = VerificationRequest(claim="test")
     profile = _stub_profile()

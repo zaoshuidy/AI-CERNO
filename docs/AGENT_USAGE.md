@@ -1,22 +1,22 @@
 # Agent Usage Guide (Claude / Hermes)
 
-This document describes how AI agents should call `veritas-core` to verify
+This document describes how AI agents should call `cerno` to verify
 factual claims. Agents should **not** perform their own web searches or
-retrieve evidence directly — they must delegate to veritas.
+retrieve evidence directly — they must delegate to cerno.
 
 ## Principle
 
-veritas-core is the single source of truth for fact verification. The agent's
+cerno is the single source of truth for fact verification. The agent's
 role is:
 
 1. Formulate a clear, checkable claim.
-2. Call veritas via CLI.
+2. Call cerno via CLI.
 3. Read the JSON result.
 4. Present the verdict, confidence, and sources to the user.
 
 The agent must **not**:
-- Browse the web independently to "double-check" veritas results.
-- Modify or filter the evidence returned by veritas.
+- Browse the web independently to "double-check" cerno results.
+- Modify or filter the evidence returned by cerno.
 - Override the verdict based on its own parametric knowledge.
 
 ## CLI Invocation
@@ -24,7 +24,7 @@ The agent must **not**:
 ### Single claim
 
 ```bash
-veritas verify --claim "CLAIM_TEXT" --provider qwen --json
+cerno verify --claim "CLAIM_TEXT" --provider qwen --json
 ```
 
 ### Batch claims
@@ -42,7 +42,7 @@ Create a JSON file:
 Then run:
 
 ```bash
-veritas verify-batch claims.json --provider qwen --json
+cerno verify-batch claims.json --provider qwen --json
 ```
 
 ### Output schema

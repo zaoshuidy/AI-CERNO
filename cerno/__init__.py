@@ -1,4 +1,4 @@
-"""veritas-core public surface.
+"""cerno public surface.
 
 Only stable, intended-for-callers names live here. Internal helpers stay
 in their respective modules.
@@ -6,14 +6,14 @@ in their respective modules.
 
 from __future__ import annotations
 
-from veritas.fact_checker import FactChecker, check_claim
-from veritas.observability import (
+from cerno.fact_checker import FactChecker, check_claim
+from cerno.observability import (
     AuditStep,
     CostBreakdown,
     TraceRecorder,
     record_step,
 )
-from veritas.types import (
+from cerno.types import (
     AtomicClaim,
     ClaimProfile,
     ClaimType,

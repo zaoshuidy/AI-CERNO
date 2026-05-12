@@ -1,4 +1,4 @@
-"""Core dataclasses, literals, and enums for veritas-core.
+"""Core dataclasses, literals, and enums for cerno.
 
 Single source of truth: design v0.5 §7. Field invariants enforced via
 __post_init__ where cheap; cross-object invariants (e.g.
@@ -11,7 +11,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from typing import Any, Literal
 
-from veritas.observability import AuditStep, CostBreakdown
+from cerno.observability import AuditStep, CostBreakdown
 
 # ---------------------------------------------------------------------------
 # Literals / enums

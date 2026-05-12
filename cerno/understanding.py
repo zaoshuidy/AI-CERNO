@@ -20,9 +20,9 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from veritas.consensus import MultiModelConsensus
-from veritas.observability import CostBreakdown
-from veritas.types import (
+from cerno.consensus import MultiModelConsensus
+from cerno.observability import CostBreakdown
+from cerno.types import (
     AtomicClaim,
     ClaimProfile,
     ClaimType,

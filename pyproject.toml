@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "veritas-core"
+name = "cerno"
 version = "0.1.0"
 description = "Strict retrieval-augmented fact verification engine (P0-Engineering)"
 requires-python = ">=3.10"
@@ -20,10 +20,10 @@ dev = [
 ]
 
 [project.scripts]
-veritas = "veritas.cli:main"
+cerno = "cerno.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["veritas*"]
+include = ["cerno*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

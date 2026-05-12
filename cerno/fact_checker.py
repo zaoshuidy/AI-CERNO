@@ -45,23 +45,23 @@ from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import replace
 
-from veritas.consensus import MultiModelConsensus, OpenAICompatibleAdapter
-from veritas.observability import CostBreakdown, TraceRecorder
-from veritas.resolver import apply_failure_matrix, resolve_claim
-from veritas.retrieval import search_tavily, search_wikipedia_zh
-from veritas.types import (
+from cerno.consensus import MultiModelConsensus, OpenAICompatibleAdapter
+from cerno.observability import CostBreakdown, TraceRecorder
+from cerno.resolver import apply_failure_matrix, resolve_claim
+from cerno.retrieval import search_tavily, search_wikipedia_zh
+from cerno.types import (
     EvidenceJudgement,
     EvidenceSpan,
     LLMProvider,
     VerificationRequest,
     VerificationResult,
 )
-from veritas.understanding import (
+from cerno.understanding import (
     build_claim_profile,
     build_retrieval_plan,
     decompose_claim,
 )
-from veritas.verification import verify_evidence
+from cerno.verification import verify_evidence
 
 #: Injectable search callable. Production callers don't supply this; tests
 #: substitute a deterministic stub so they never touch the network. The

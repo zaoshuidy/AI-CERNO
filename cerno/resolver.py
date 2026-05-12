@@ -58,7 +58,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from veritas.types import (
+from cerno.types import (
     AtomicClaim,
     ClaimProfile,
     ConflictReport,
@@ -600,7 +600,7 @@ def _failure_result(
 # Local import to keep VerificationResult at the bottom (avoids circular import
 # risk if types ever pulls anything from resolver). VerificationResult itself
 # has no runtime dependency on this module.
-from veritas.types import VerificationResult  # noqa: E402
+from cerno.types import VerificationResult  # noqa: E402
 
 # Silence "unused import" warnings for re-export consumers; ModelVote is part
 # of the documented input shape and AtomicClaim is on the public boundary.

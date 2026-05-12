@@ -1,7 +1,7 @@
-"""Mocked unit tests for veritas.fact_checker.
+"""Mocked unit tests for cerno.fact_checker.
 
 No real LLMs, no real network. Each test monkey-patches the upstream stage
-functions imported INTO ``veritas.fact_checker`` (build_claim_profile,
+functions imported INTO ``cerno.fact_checker`` (build_claim_profile,
 decompose_claim, build_retrieval_plan, verify_evidence, resolve_claim,
 apply_failure_matrix) and injects deterministic ``tavily_search`` /
 ``wiki_search`` callables. The consensus argument is a stub that asserts it
@@ -17,9 +17,9 @@ from typing import Any
 
 import pytest
 
-from veritas.consensus import MultiModelConsensus
-from veritas.fact_checker import FactChecker, check_claim
-from veritas.types import (
+from cerno.consensus import MultiModelConsensus
+from cerno.fact_checker import FactChecker, check_claim
+from cerno.types import (
     AtomicClaim,
     ClaimProfile,
     EvidenceJudgement,
@@ -168,15 +168,15 @@ def _patch_pipeline(
     Only the patches the caller cares about are actually wired; missing ones
     are guarded with ``pytest.fail`` so an unexpected call is loud."""
     monkeypatch.setattr(
-        "veritas.fact_checker.build_claim_profile",
+        "cerno.fact_checker.build_claim_profile",
         lambda req, cons, **kw: profile,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.decompose_claim",
+        "cerno.fact_checker.decompose_claim",
         lambda req, prof, cons, **kw: atomic_claims,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.build_retrieval_plan",
+        "cerno.fact_checker.build_retrieval_plan",
         lambda prof, acs: plan,
     )
     if judgement_fn is None:
@@ -184,17 +184,17 @@ def _patch_pipeline(
             atomic_claim_id=ac.id, evidence_id=ev.id,
         )
     monkeypatch.setattr(
-        "veritas.fact_checker.verify_evidence",
+        "cerno.fact_checker.verify_evidence",
         judgement_fn,
     )
     if resolver_result is not None:
         monkeypatch.setattr(
-            "veritas.fact_checker.resolve_claim",
+            "cerno.fact_checker.resolve_claim",
             lambda acs, judgements, evidence, prof: resolver_result,
         )
     if failure_matrix_result is not None:
         monkeypatch.setattr(
-            "veritas.fact_checker.apply_failure_matrix",
+            "cerno.fact_checker.apply_failure_matrix",
             lambda ctx: failure_matrix_result,
         )
 
@@ -211,23 +211,23 @@ def test_unchecked_profile_short_circuits(
     profile = _make_profile(is_checkable=False, reason="claim_is_opinion")
 
     monkeypatch.setattr(
-        "veritas.fact_checker.build_claim_profile",
+        "cerno.fact_checker.build_claim_profile",
         lambda req, cons, **kw: profile,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.decompose_claim",
+        "cerno.fact_checker.decompose_claim",
         lambda *a, **kw: pytest.fail("decompose_claim must not be called"),
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.build_retrieval_plan",
+        "cerno.fact_checker.build_retrieval_plan",
         lambda *a, **kw: pytest.fail("build_retrieval_plan must not be called"),
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.verify_evidence",
+        "cerno.fact_checker.verify_evidence",
         lambda *a, **kw: pytest.fail("verify_evidence must not be called"),
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.resolve_claim",
+        "cerno.fact_checker.resolve_claim",
         lambda *a, **kw: pytest.fail("resolve_claim must not be called"),
     )
 
@@ -251,7 +251,7 @@ def test_unchecked_profile_falls_back_to_default_reason(
     """Empty profile.reason → orchestrator fills in a default reasoning."""
     profile = _make_profile(is_checkable=False, reason="")
     monkeypatch.setattr(
-        "veritas.fact_checker.build_claim_profile",
+        "cerno.fact_checker.build_claim_profile",
         lambda req, cons, **kw: profile,
     )
 
@@ -292,7 +292,7 @@ def test_happy_path_runs_all_stages(
         resolver_result=expected,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.apply_failure_matrix",
+        "cerno.fact_checker.apply_failure_matrix",
         lambda *a, **kw: pytest.fail("failure matrix not expected on happy path"),
     )
 
@@ -392,10 +392,10 @@ def test_zero_evidence_routes_to_failure_matrix(
         plan=plan,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.apply_failure_matrix", fake_failure_matrix,
+        "cerno.fact_checker.apply_failure_matrix", fake_failure_matrix,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.resolve_claim",
+        "cerno.fact_checker.resolve_claim",
         lambda *a, **kw: pytest.fail("resolve_claim must not run on empty evidence"),
     )
 
@@ -448,7 +448,7 @@ def test_both_channels_fail_marks_both_unavailable(
         plan=plan,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.apply_failure_matrix", fake_failure_matrix,
+        "cerno.fact_checker.apply_failure_matrix", fake_failure_matrix,
     )
 
     result = check_claim(
@@ -718,20 +718,20 @@ def test_consensus_object_is_forwarded_to_stage_functions(
         return _make_judgement(atomic_claim_id=ac.id, evidence_id=evidence.id)
 
     monkeypatch.setattr(
-        "veritas.fact_checker.build_claim_profile", fake_profile,
+        "cerno.fact_checker.build_claim_profile", fake_profile,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.decompose_claim", fake_decompose,
+        "cerno.fact_checker.decompose_claim", fake_decompose,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.build_retrieval_plan",
+        "cerno.fact_checker.build_retrieval_plan",
         lambda prof, acs: plan,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.verify_evidence", fake_verify,
+        "cerno.fact_checker.verify_evidence", fake_verify,
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.resolve_claim",
+        "cerno.fact_checker.resolve_claim",
         lambda acs, judgements, evidence, prof: expected,
     )
 
@@ -755,7 +755,7 @@ def test_tavily_api_key_without_stub_invokes_real_search(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """When tavily_api_key is supplied but no tavily_search stub, the
-    orchestrator must call into ``veritas.retrieval.search_tavily``. We
+    orchestrator must call into ``cerno.retrieval.search_tavily``. We
     patch ``search_tavily`` (imported into fact_checker) to confirm dispatch
     without actually hitting the network."""
     profile = _make_profile()
@@ -771,7 +771,7 @@ def test_tavily_api_key_without_stub_invokes_real_search(
         return [span]
 
     monkeypatch.setattr(
-        "veritas.fact_checker.search_tavily", fake_search_tavily,
+        "cerno.fact_checker.search_tavily", fake_search_tavily,
     )
     expected = VerificationResult(
         verdict="likely_correct", confidence=0.7,
@@ -900,7 +900,7 @@ def test_factchecker_verify_wraps_string_into_request(
             claim=req.claim, sources=[], reasoning="ok",
         )
 
-    monkeypatch.setattr("veritas.fact_checker.check_claim", fake_check_claim)
+    monkeypatch.setattr("cerno.fact_checker.check_claim", fake_check_claim)
 
     checker = FactChecker(
         consensus=_AssertNoCallConsensus(),
@@ -944,7 +944,7 @@ def test_factchecker_verify_batch_preserves_order(
             claim=req.claim, sources=[], reasoning="ok",
         )
 
-    monkeypatch.setattr("veritas.fact_checker.check_claim", fake_check_claim)
+    monkeypatch.setattr("cerno.fact_checker.check_claim", fake_check_claim)
 
     requests = [_make_request(claim=f"c{i}") for i in range(3)]
     checker = FactChecker(consensus=_AssertNoCallConsensus(), max_workers=4)
@@ -969,7 +969,7 @@ def test_factchecker_verify_batch_isolates_single_failure(
             claim=req.claim, sources=[], reasoning="ok",
         )
 
-    monkeypatch.setattr("veritas.fact_checker.check_claim", fake_check_claim)
+    monkeypatch.setattr("cerno.fact_checker.check_claim", fake_check_claim)
 
     requests = [
         _make_request(claim="ok-1"),
@@ -1017,10 +1017,10 @@ def test_factchecker_verify_batch_uses_max_workers(
             return self._pool.__exit__(*args)
 
     monkeypatch.setattr(
-        "veritas.fact_checker.ThreadPoolExecutor", RecordingPool
+        "cerno.fact_checker.ThreadPoolExecutor", RecordingPool
     )
     monkeypatch.setattr(
-        "veritas.fact_checker.check_claim",
+        "cerno.fact_checker.check_claim",
         lambda req, cons, **k: VerificationResult(
             verdict="supported", confidence=0.5,
             claim=req.claim, sources=[], reasoning="ok",
@@ -1074,9 +1074,9 @@ def _wire_cache_dir_pipeline(
             )
         ]
 
-    monkeypatch.setattr("veritas.fact_checker.search_tavily", fake_tavily)
+    monkeypatch.setattr("cerno.fact_checker.search_tavily", fake_tavily)
     monkeypatch.setattr(
-        "veritas.fact_checker.search_wikipedia_zh", fake_wiki
+        "cerno.fact_checker.search_wikipedia_zh", fake_wiki
     )
 
 

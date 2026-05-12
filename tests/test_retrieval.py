@@ -1,4 +1,4 @@
-"""Unit tests for veritas.retrieval — no real network, no real LLMs.
+"""Unit tests for cerno.retrieval — no real network, no real LLMs.
 
 Covers the 13 mandatory cases from the Stage 4 spec:
 1.  Tavily       → EvidenceSpan (mocked TavilyClient)
@@ -34,8 +34,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from veritas import retrieval
-from veritas.retrieval import (
+from cerno import retrieval
+from cerno.retrieval import (
     CACHE_TTL_SECONDS,
     CACHE_VERSION,
     DEFAULT_QUOTE_WINDOW,
@@ -51,7 +51,7 @@ from veritas.retrieval import (
     search_tavily,
     search_wikipedia_zh,
 )
-from veritas.types import EvidenceSpan
+from cerno.types import EvidenceSpan
 
 # ---------------------------------------------------------------------------
 # normalize_text + content_hash

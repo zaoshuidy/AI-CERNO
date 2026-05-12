@@ -15,7 +15,7 @@ from typing import Any, Literal, Protocol
 
 import jsonschema
 
-from veritas.types import (
+from cerno.types import (
     Disagreement,
     LLMProvider,
     ModelVote,

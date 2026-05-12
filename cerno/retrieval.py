@@ -43,7 +43,7 @@ from urllib.parse import quote, urlparse
 
 import requests
 
-from veritas.types import EvidenceScore, EvidenceSpan, SourceTier
+from cerno.types import EvidenceScore, EvidenceSpan, SourceTier
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -65,7 +65,7 @@ WIKI_API_URL: str = "https://zh.wikipedia.org/w/api.php"
 WIKI_TIMEOUT: float = 15.0
 
 #: User-Agent required by MediaWiki API etiquette.
-WIKI_USER_AGENT: str = "veritas-core/0.1 (P0 fact verification)"
+WIKI_USER_AGENT: str = "cerno/0.1 (P0 fact verification)"
 
 #: Domain suffixes that unconditionally produce T0.
 _T0_DOMAIN_SUFFIXES: tuple[str, ...] = (

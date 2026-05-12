@@ -1,4 +1,4 @@
-"""Unit tests for veritas.consensus — adapter contract, retry, StrictestStrategy."""
+"""Unit tests for cerno.consensus — adapter contract, retry, StrictestStrategy."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from typing import Any
 
 import pytest
 
-from veritas.consensus import (
+from cerno.consensus import (
     JSON_RETRY_PROMPT_TEMPLATE,
     TEMPERATURE,
     ConsensusResult,
@@ -18,7 +18,7 @@ from veritas.consensus import (
     _parse_and_validate,
     _response_to_vote,
 )
-from veritas.types import LLMProvider, ModelVote
+from cerno.types import LLMProvider, ModelVote
 
 JUDGEMENT_SCHEMA: dict[str, Any] = {
     "type": "object",

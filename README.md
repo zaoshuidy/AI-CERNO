@@ -1,4 +1,4 @@
-# veritas-core
+# cerno
 
 Strict retrieval-augmented fact verification engine.
 
@@ -16,7 +16,7 @@ Requires Python >= 3.10.
 ## Quick start
 
 ```python
-from veritas import FactChecker, VerificationRequest, LLMProvider
+from cerno import FactChecker, VerificationRequest, LLMProvider
 
 checker = FactChecker(
     llm_providers=[
@@ -42,16 +42,16 @@ print(result.cost.input_tokens) # total input tokens consumed
 
 ```bash
 # Single claim
-veritas verify --claim "爱因斯坦获得诺贝尔物理学奖" --provider qwen --json
+cerno verify --claim "爱因斯坦获得诺贝尔物理学奖" --provider qwen --json
 
 # Batch
-veritas verify-batch claims.json --provider qwen --json
+cerno verify-batch claims.json --provider qwen --json
 
 # Multiple providers for consensus
-veritas verify --claim "..." --provider qwen deepseek --json
+cerno verify --claim "..." --provider qwen deepseek --json
 
 # Pin a specific model version
-veritas verify --claim "..." --provider qwen --model qwen-plus --json
+cerno verify --claim "..." --provider qwen --model qwen-plus --json
 ```
 
 API keys are read from environment variables only — never from CLI arguments.
@@ -76,8 +76,8 @@ At least one LLM provider key must be configured for the engine to start.
 Pass multiple providers to run consensus across models:
 
 ```python
-from veritas import FactChecker
-from veritas.cli import build_provider_from_env
+from cerno import FactChecker
+from cerno.cli import build_provider_from_env
 
 checker = FactChecker(
     llm_providers=[
@@ -90,7 +90,7 @@ checker = FactChecker(
 Or via CLI:
 
 ```bash
-veritas verify --claim "..." --provider qwen deepseek --json
+cerno verify --claim "..." --provider qwen deepseek --json
 ```
 
 ## Verdicts
@@ -142,7 +142,7 @@ See [docs/PROVIDERS.md](docs/PROVIDERS.md) for detailed provider recommendations
 ## Agent usage (Claude / Hermes)
 
 See [docs/AGENT_USAGE.md](docs/AGENT_USAGE.md) for instructions on calling
-veritas from AI agents.
+cerno from AI agents.
 
 ## Disclaimer
 

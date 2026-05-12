@@ -1,4 +1,4 @@
-"""Unit tests for veritas.cli — no real LLMs, no real network.
+"""Unit tests for cerno.cli — no real LLMs, no real network.
 
 All tests monkeypatch ``FactChecker`` and environment variables so the CLI
 entry point runs offline.
@@ -13,9 +13,9 @@ from typing import Any
 
 import pytest
 
-from veritas.cli import main
-from veritas.observability import AuditStep, CostBreakdown
-from veritas.types import (
+from cerno.cli import main
+from cerno.observability import AuditStep, CostBreakdown
+from cerno.types import (
     EvidenceSpan,
     ModelVote,
     VerificationRequest,
@@ -136,7 +136,7 @@ def test_verify_single_json_shape(
         ),
     )
     fake = _FakeChecker(single_result=result)
-    monkeypatch.setattr("veritas.cli.FactChecker", lambda **_: fake)
+    monkeypatch.setattr("cerno.cli.FactChecker", lambda **_: fake)
 
     code, out = _run_cli(monkeypatch, ["verify", "--claim", "c1", "--provider", "qwen"])
 
@@ -179,7 +179,7 @@ def test_verify_batch_order_preserved(
     r2 = _make_result(claim="B", verdict="needs_review", confidence=0.5)
     r3 = _make_result(claim="C", verdict="likely_error", confidence=0.8)
     fake = _FakeChecker(batch_results=[r1, r2, r3])
-    monkeypatch.setattr("veritas.cli.FactChecker", lambda **_: fake)
+    monkeypatch.setattr("cerno.cli.FactChecker", lambda **_: fake)
 
     claims_file = tmp_path / "claims.json"
     claims_file.write_text(json.dumps(["A", "B", "C"]), encoding="utf-8")
@@ -233,7 +233,7 @@ def test_verify_multiple_providers(
 
     result = _make_result(claim="multi")
     fake = _FakeChecker(single_result=result)
-    monkeypatch.setattr("veritas.cli.FactChecker", lambda **_: fake)
+    monkeypatch.setattr("cerno.cli.FactChecker", lambda **_: fake)
 
     code, out = _run_cli(
         monkeypatch,
@@ -260,7 +260,7 @@ def test_verify_forwards_tavily_key(
         captured.update(kwargs)
         return _FakeChecker(single_result=_make_result(claim="t"))
 
-    monkeypatch.setattr("veritas.cli.FactChecker", _capture_fact_checker)
+    monkeypatch.setattr("cerno.cli.FactChecker", _capture_fact_checker)
 
     code, _ = _run_cli(monkeypatch, ["verify", "--claim", "t", "--provider", "qwen"])
 
@@ -283,7 +283,7 @@ def test_verify_provider_timeout(
         captured_providers.extend(kwargs.get("llm_providers", []))
         return _FakeChecker(single_result=_make_result(claim="t"))
 
-    monkeypatch.setattr("veritas.cli.FactChecker", _capture_fact_checker)
+    monkeypatch.setattr("cerno.cli.FactChecker", _capture_fact_checker)
 
     code, _ = _run_cli(monkeypatch, ["verify", "--claim", "t", "--provider", "qwen"])
 
@@ -347,7 +347,7 @@ def test_build_provider_from_env_qwen_defaults(
     monkeypatch.delenv("QWEN_BASE_URL", raising=False)
     monkeypatch.delenv("QWEN_MODEL", raising=False)
 
-    from veritas.cli import build_provider_from_env
+    from cerno.cli import build_provider_from_env
 
     p = build_provider_from_env("qwen")
     assert p.name == "qwen"
@@ -364,7 +364,7 @@ def test_build_provider_from_env_qwen_custom_env(
     monkeypatch.setenv("QWEN_BASE_URL", "https://custom.example.com/v1")
     monkeypatch.setenv("QWEN_MODEL", "qwen-max")
 
-    from veritas.cli import build_provider_from_env
+    from cerno.cli import build_provider_from_env
 
     p = build_provider_from_env("qwen")
     assert p.api_key == "custom-key"
@@ -377,7 +377,7 @@ def test_build_provider_from_env_missing_key(
 ) -> None:
     monkeypatch.delenv("QWEN_API_KEY", raising=False)
 
-    from veritas.cli import build_provider_from_env
+    from cerno.cli import build_provider_from_env
 
     with pytest.raises(ValueError) as excinfo:
         build_provider_from_env("qwen")
@@ -391,7 +391,7 @@ def test_build_provider_from_env_generic_ok(
     monkeypatch.setenv("MYMODEL_BASE_URL", "https://api.mymodel.com/v1")
     monkeypatch.setenv("MYMODEL_MODEL", "mymodel-v1")
 
-    from veritas.cli import build_provider_from_env
+    from cerno.cli import build_provider_from_env
 
     p = build_provider_from_env("mymodel")
     assert p.name == "mymodel"
@@ -408,7 +408,7 @@ def test_build_provider_from_env_generic_missing_fields(
     monkeypatch.delenv("MYMODEL_BASE_URL", raising=False)
     monkeypatch.delenv("MYMODEL_MODEL", raising=False)
 
-    from veritas.cli import build_provider_from_env
+    from cerno.cli import build_provider_from_env
 
     with pytest.raises(ValueError) as excinfo:
         build_provider_from_env("mymodel")
@@ -426,7 +426,7 @@ def test_build_provider_from_env_all_three(
     monkeypatch.setenv("XIAOMI_API_KEY", "x")
     monkeypatch.setenv("DEEPSEEK_API_KEY", "d")
 
-    from veritas.cli import build_provider_from_env
+    from cerno.cli import build_provider_from_env
 
     pq = build_provider_from_env("qwen")
     px = build_provider_from_env("xiaomi")
@@ -446,7 +446,7 @@ def test_build_provider_from_env_model_override(
     monkeypatch.setenv("QWEN_API_KEY", "fake-key")
     monkeypatch.delenv("QWEN_MODEL", raising=False)
 
-    from veritas.cli import build_provider_from_env
+    from cerno.cli import build_provider_from_env
 
     p = build_provider_from_env("qwen", model_override="qwen3.5-122b-a10b")
     assert p.model == "qwen3.5-122b-a10b"

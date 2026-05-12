@@ -1,8 +1,8 @@
-"""Unit tests for veritas.observability — CostBreakdown / AuditStep / TraceRecorder."""
+"""Unit tests for cerno.observability — CostBreakdown / AuditStep / TraceRecorder."""
 
 from __future__ import annotations
 
-from veritas import (
+from cerno import (
     AuditStep,
     CostBreakdown,
     TraceRecorder,

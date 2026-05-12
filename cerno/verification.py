@@ -48,13 +48,13 @@ import re
 from dataclasses import replace
 from typing import Any
 
-from veritas.consensus import (
+from cerno.consensus import (
     ConsensusResult,
     MultiModelConsensus,
 )
-from veritas.observability import CostBreakdown
-from veritas.retrieval import extract_anchors
-from veritas.types import (
+from cerno.observability import CostBreakdown
+from cerno.retrieval import extract_anchors
+from cerno.types import (
     AtomicClaim,
     ConfidenceLevel,
     EvidenceJudgement,

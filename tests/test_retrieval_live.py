@@ -1,4 +1,4 @@
-"""Real-network smoke tests for veritas.retrieval.
+"""Real-network smoke tests for cerno.retrieval.
 
 These tests reach out to live services (Tavily, zh.wikipedia.org). They are
 gated by ``LIVE_TEST=1`` in the environment so that ``pytest`` invocations in
@@ -16,7 +16,7 @@ import os
 
 import pytest
 
-from veritas.retrieval import search_tavily, search_wikipedia_zh
+from cerno.retrieval import search_tavily, search_wikipedia_zh
 
 # Module-level skip: every test in here is skipped unless explicitly opted-in.
 pytestmark = [

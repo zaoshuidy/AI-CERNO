@@ -1,4 +1,4 @@
-"""Unit tests for veritas.types — dataclass invariants, defaults, serialization."""
+"""Unit tests for cerno.types — dataclass invariants, defaults, serialization."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from dataclasses import asdict, is_dataclass
 
 import pytest
 
-from veritas import (
+from cerno import (
     AtomicClaim,
     ClaimProfile,
     ConflictReport,

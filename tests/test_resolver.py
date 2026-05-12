@@ -1,4 +1,4 @@
-"""Unit tests for veritas.resolver.
+"""Unit tests for cerno.resolver.
 
 No LLM, no network. Every test constructs ``EvidenceJudgement`` /
 ``EvidenceSpan`` directly because Stage 6 consumes already-built
@@ -40,7 +40,7 @@ from typing import Any
 
 import pytest
 
-from veritas.resolver import (
+from cerno.resolver import (
     CONFLICT_CONFIDENCE,
     HIGH_RISK_NO_AUTHORITY_CAP,
     INJECTION_RISK_CAP,
@@ -55,7 +55,7 @@ from veritas.resolver import (
     decide_verdict,
     resolve_claim,
 )
-from veritas.types import (
+from cerno.types import (
     AtomicClaim,
     ClaimProfile,
     ConfidenceLevel,

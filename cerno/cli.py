@@ -1,9 +1,9 @@
-"""CLI entry point for veritas-core.
+"""CLI entry point for cerno.
 
 Usage::
 
-    veritas verify --claim "爱因斯坦获得诺贝尔物理学奖" --provider qwen --json
-    veritas verify-batch claims.json --provider qwen --json
+    cerno verify --claim "爱因斯坦获得诺贝尔物理学奖" --provider qwen --json
+    cerno verify-batch claims.json --provider qwen --json
 
 All API keys are read from environment variables only — never from CLI args.
 """
@@ -16,8 +16,8 @@ import os
 import sys
 from typing import Any
 
-from veritas import FactChecker, VerificationRequest
-from veritas.types import LLMProvider, VerificationResult
+from cerno import FactChecker, VerificationRequest
+from cerno.types import LLMProvider, VerificationResult
 
 # ---------------------------------------------------------------------------
 # Provider defaults
@@ -269,7 +269,7 @@ def cmd_verify_batch(args: argparse.Namespace) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="veritas",
+        prog="cerno",
         description="Strict retrieval-augmented fact verification engine",
     )
     sub = parser.add_subparsers(dest="command", required=True)

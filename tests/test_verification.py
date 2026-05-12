@@ -1,4 +1,4 @@
-"""Unit tests for veritas.verification.
+"""Unit tests for cerno.verification.
 
 No real LLMs, no real network. Tests inject a stubbed MultiModelConsensus
 subclass that returns a pre-canned ConsensusResult so we can assert every
@@ -11,13 +11,13 @@ from typing import Any
 
 import pytest
 
-from veritas.consensus import ConsensusResult, MultiModelConsensus
-from veritas.types import (
+from cerno.consensus import ConsensusResult, MultiModelConsensus
+from cerno.types import (
     AtomicClaim,
     EvidenceSpan,
     ModelVote,
 )
-from veritas.verification import (
+from cerno.verification import (
     CITATION_MAX_CHARS,
     LEXICAL_OVERLAP_FLOOR,
     VERIFY_RESPONSE_SCHEMA,
@@ -693,7 +693,7 @@ def test_verify_evidence_judgement_quote_always_substrings_evidence_quote() -> N
 # ---------------------------------------------------------------------------
 
 def test_verify_evidence_accumulates_cost() -> None:
-    from veritas.observability import CostBreakdown
+    from cerno.observability import CostBreakdown
 
     claim, evidence = _passing_pair()
     consensus = _StubConsensus(
