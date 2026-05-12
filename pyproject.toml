@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "veritas-core"
+version = "0.1.0"
+description = "Strict retrieval-augmented fact verification engine (P0-Engineering)"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.30",
+    "openai>=1.0",
+    "jsonschema>=4.0",
+    "tavily-python>=0.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.scripts]
+veritas = "veritas.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["veritas*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+markers = [
+    "live: tests that hit real Tavily / Wikipedia APIs (LIVE_TEST=1)",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["E501"]
